@@ -1,20 +1,15 @@
 package Vista;
 
-public class Consola
-{
+public class Consola {
     private static Consola consola;
 
-    public Consola()
-    {
-    }
+    public Consola() {}
 
-    public static Consola getInstance()
-    {
-       if(consola==null)
-       {
-           return new Consola();
-       }
-        return  consola;
+    public static Consola getInstance() {
+        if (consola == null) {
+            consola = new Consola();
+        }
+        return consola;
     }
 
 }

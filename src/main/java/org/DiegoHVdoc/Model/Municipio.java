@@ -1,13 +1,11 @@
 package org.DiegoHVdoc.Model;
 
-public class Municipio
-{
+public class Municipio {
     private Integer id;
     private String nombre;
     private Estado estado;
 
-    public Municipio() {
-    }
+    public Municipio() {}
 
     public Municipio(Integer id, String nombre, Estado estado) {
         this.id = id;
