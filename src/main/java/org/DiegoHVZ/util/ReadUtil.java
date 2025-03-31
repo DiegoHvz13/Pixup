@@ -1,8 +1,8 @@
-package Util;
-import Vista.Menu;
+package org.DiegoHVZ.util;
 
 import java.util.Scanner;
-    public class ReadUtil
+
+public class ReadUtil
 {
     private Scanner scanner;
     private static ReadUtil readUtil;
@@ -54,7 +54,7 @@ import java.util.Scanner;
                 {
                 }
             }
-            Menu.errorDato();
+            System.out.println( "Valor incorrecto, intentelo nuevamente" );
         }
         return null;
     }
