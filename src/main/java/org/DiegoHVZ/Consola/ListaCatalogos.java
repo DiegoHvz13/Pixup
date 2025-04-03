@@ -25,7 +25,12 @@ public class ListaCatalogos extends LecturaAccion
         System.out.println( "1.- Estado");
         System.out.println( "2.- Municipio");
         System.out.println( "3.- Colonia");
-        System.out.println( "4.- Salir");
+        System.out.println( "4.- Artista");
+        System.out.println( "5.- Canción");
+        System.out.println( "6.- Disco");
+        System.out.println( "7.- Disquera");
+        System.out.println( "8.- Genero Musical");
+        System.out.println( "9.- Salir");
         System.out.print( "Su opcion > " );
     }
     @Override
@@ -37,7 +42,7 @@ public class ListaCatalogos extends LecturaAccion
     @Override
     public int valorMaxMenu()
     {
-        return 4;
+        return 9;
     }
 
     @Override
@@ -54,6 +59,21 @@ public class ListaCatalogos extends LecturaAccion
                 break;
             case 3:
                 ejecutable = ColoniaCatalogo.getInstance( );
+                break;
+            case 4:
+                ejecutable = ArtistaCatalogo.getInstance();
+                break;
+            case 5:
+                ejecutable = CancionCatalogo.getInstance();
+                break;
+            case 6:
+                ejecutable = DiscoCatalogo.getInstance();
+                break;
+            case 7:
+                ejecutable = DisqueraCatalogo.getInstance();
+                break;
+            case 8:
+                ejecutable = GeneroMusicalCatalogo.getInstance();
                 break;
         }
         ejecutable.setFlag( true );

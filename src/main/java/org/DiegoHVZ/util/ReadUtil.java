@@ -59,6 +59,27 @@ public class ReadUtil
         return null;
     }
 
+    public static Float readFloat() {
+        String valor;
+        boolean flag = true;
+        Float aux = null;
+
+        while (flag) {
+            valor = read();
+            if (valor != null && !valor.isEmpty()) {
+                try {
+                    aux = Float.valueOf(valor);
+                    return aux;
+                } catch (Exception e) {
+                    // Ignorar la excepción y mostrar mensaje de error
+                }
+            }
+            System.out.println("Valor incorrecto, inténtelo nuevamente");
+        }
+        return null;
+    }
+
+
     public static Integer string2Integer( String valor )
     {
         try
