@@ -1,5 +1,6 @@
 package org.DiegoHVZ.Consola;
 
+import org.DiegoHVZ.jdbc.impl.DisqueraJdbcImpl;
 import org.DiegoHVZ.model.Artista;
 import org.DiegoHVZ.model.Disquera;
 import org.DiegoHVZ.util.ReadUtil;
@@ -13,7 +14,7 @@ public class DisqueraCatalogo extends Catalogos<Disquera>
 
     private DisqueraCatalogo()
     {
-        super();
+        super(new DisqueraJdbcImpl());
     }
     public  static DisqueraCatalogo getInstance()
     {
@@ -47,11 +48,11 @@ public class DisqueraCatalogo extends Catalogos<Disquera>
         disquera.setDisquera( ReadUtil.read( ) );
     }
 
-    @Override
+    /*@Override
     public File getFile() {
         return new File("Disquera.list");
     }
-
+*/
 
 }
 

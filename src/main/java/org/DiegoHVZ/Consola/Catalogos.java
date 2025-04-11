@@ -1,6 +1,9 @@
 package org.DiegoHVZ.Consola;
 
+import org.DiegoHVZ.jdbc.GenericJdbc;
+import org.DiegoHVZ.jdbc.impl.EstadoJdbcImpl;
 import org.DiegoHVZ.model.Catalogo;
+import org.DiegoHVZ.model.Estado;
 import org.DiegoHVZ.util.ReadUtil;
 import org.DiegoHVZ.ventana.LecturaAccion;
 
@@ -14,9 +17,13 @@ import java.util.List;
         protected T t;
         protected boolean flag2;
         protected File file;
+        protected GenericJdbc<T> jdbc;
 
-        public Catalogos()
+
+        public Catalogos(GenericJdbc<T> jdbc)
+
         {
+            this.jdbc = jdbc;
             list = new ArrayList<>( );
         }
 
@@ -27,11 +34,12 @@ import java.util.List;
 
         public void print( )
         {
-            if( isListEmpty( ) )
-            {
-                System.out.println( "> No hay elementos.");
+            List<T> items = jdbc.findAll();
+            if (items.isEmpty()) {
+                System.out.println("> No hay elementos.");
+            } else {
+                items.forEach(System.out::println);
             }
-            list.stream().forEach( System.out::println );
         }
 
         public abstract T newT( );
@@ -40,60 +48,75 @@ import java.util.List;
 
         public void add( )
         {
-            t = newT( );
-            if( processNewT( t ) )
-            {
-                t.setId( list.size( ) + 1 );
-                list.add( t );
+            t = newT();
+            if (processNewT(t)) {
+                if (jdbc.save(t)) {
+                    System.out.println("Objeto guardado exitosamente en la base de datos.");
+                } else {
+                    System.out.println("Error al guardar el objeto en la base de datos.");
+                }
             }
         }
 
         public void edit( )
         {
-            if( isListEmpty( ) )
-            {
-                System.out.println( "> No hay elementos." );
+            List<T> items = jdbc.findAll();
+            if (items.isEmpty()) {
+                System.out.println("> No hay elementos.");
                 return;
             }
+
             flag2 = true;
-            while ( flag2 )
-            {
-                System.out.println( "> Ingrese el ID del elemento a editar: " );
-                print( );
-                t = list.stream().filter( e -> e.getId().equals( ReadUtil.readInt( ) ) ).findFirst().orElse( null );
-                if( t == null )
-                {
-                    System.out.println( "> ID incorrecto, intentelo nuevamente." );
+            while (flag2) {
+                System.out.println("> Ingrese el ID del elemento a editar: ");
+                for (T item : items) {
+                    System.out.println(item);
                 }
-                else
-                {
-                    processEditT( t );
+
+                int id = ReadUtil.readInt();
+                T item = jdbc.findById(id);
+
+                if (item == null) {
+                    System.out.println("> ID incorrecto, inténtelo nuevamente.");
+                } else {
+                    processEditT(item);
+                    boolean resultado = jdbc.update(item);
+                    if (resultado) {
+                        System.out.println("> Elemento modificado y guardado en la base de datos.");
+                    } else {
+                        System.out.println("> Error al guardar el elemento modificado.");
+                    }
                     flag2 = false;
-                    System.out.println( "> Elemento modificado." );
                 }
             }
         }
 
         public void remove( )
         {
-            if( isListEmpty( ) )
-            {
-                System.out.println( "No hay elementos." );
+            List<T> items = jdbc.findAll();
+            if (items.isEmpty()) {
+                System.out.println("> No hay elementos.");
                 return;
             }
+
             flag2 = true;
             while ( flag2 )
             {
-                System.out.print( "Ingrese el ID del elemento a borrar: " );
-                print( );
-                t = list.stream().filter( e -> e.getId().equals( ReadUtil.readInt( ) ) ).findFirst().orElse( null );
-                if( t==null )
-                {
-                    System.out.println( "ID incorrecto, inténtelo nuevamente." );
+                System.out.println("> Ingrese el ID del elemento a editar: ");
+                for (T item : items) {
+                    System.out.println(item);
+                }
+                System.out.print("Su opcion >");
+
+                int id = ReadUtil.readInt();
+                T item = jdbc.findById(id);
+
+                if (item == null) {
+                    System.out.println("> ID incorrecto, inténtelo nuevamente.");
                 }
                 else
                 {
-                    list.remove( t );
+                    jdbc.delete(item);
                     flag2 = false;
                     System.out.println( "Elemento eliminado." );
                 }
@@ -117,15 +140,10 @@ import java.util.List;
                 case 4:
                     print( );
                     break;
-                case 5:
-                    guardarArchivo( );
-                    break;
-                case 6:
-                    leerArchivo( );
-                    break;
             }
         }
 
+        /*
         private void leerArchivo()
         {
             ObjectInputStream objectInputStream = null;
@@ -137,11 +155,12 @@ import java.util.List;
                 Creación de los objetos de tipo ObjectInputStream y FileInputStream
                 FileInputStream para primero traer datos de un archivo
                 ObjectInputStream para leer los datos del fileInputStream
-           */
+
                 fileInputStream = new FileInputStream( file );
                 objectInputStream = new ObjectInputStream( fileInputStream );
 
                 // Lee la lista almacenada en el archivo como un objeto y la guarda en list
+                List<T> items = jdbc.findAll();
                 list = (List<T>)objectInputStream.readObject( );
 
                 objectInputStream.close( );
@@ -165,13 +184,13 @@ import java.util.List;
         Creación de los objetos de tipo ObjectOutputStream y FileOutputStream
         FileOutputStream para mandar datos a un archivo
         ObjectOutputStream para primero mandar los datos al fileOutputStream
-         */
+
             ObjectOutputStream objectOutputStream = null;
             FileOutputStream fileOutputStream = null;
 
             try
-            {
-                if( isListEmpty() )
+            {List<T> items= jdbc.findAll();
+                if(items.isEmpty())
                 {
                     System.out.println("> No hay elementos para guardar.");
                 }
@@ -182,7 +201,7 @@ import java.util.List;
                 objectOutputStream = new ObjectOutputStream( fileOutputStream );
 
                 //Manda al objeto al objectOutputStream :3
-                objectOutputStream.writeObject( list );
+                objectOutputStream.writeObject( items );
 
                 // Cerrar las instancias de los objetos, como si fuera un scanner (porque un scanner también es un objeto xd)
                 objectOutputStream.close();
@@ -197,6 +216,7 @@ import java.util.List;
                 throw new RuntimeException(e);
             }
         }
+        */
 
         @Override
         public void despliegaMenu()

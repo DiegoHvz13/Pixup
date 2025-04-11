@@ -1,5 +1,6 @@
 package org.DiegoHVZ.Consola;
 
+import org.DiegoHVZ.jdbc.impl.MunicipioJdbcImpl;
 import org.DiegoHVZ.model.Municipio;
 import org.DiegoHVZ.util.ReadUtil;
 
@@ -10,7 +11,7 @@ public class MunicipioCatalogo extends Catalogos<Municipio>
     public static MunicipioCatalogo municipioCatalogo;
     private MunicipioCatalogo( )
     {
-        super();
+        super(new MunicipioJdbcImpl());
     }
 
     public static MunicipioCatalogo getInstance( )
@@ -45,9 +46,9 @@ public class MunicipioCatalogo extends Catalogos<Municipio>
         municipio.setNombre( ReadUtil.read( ) );
     }
 
-    @Override
+   /* @Override
     public File getFile() {
         return new File( "./Municipio.object" );
     }
-
+*/
 }

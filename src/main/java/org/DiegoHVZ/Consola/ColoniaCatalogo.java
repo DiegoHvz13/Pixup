@@ -1,5 +1,6 @@
 package org.DiegoHVZ.Consola;
 
+import org.DiegoHVZ.jdbc.impl.ColoniaJdbcImpl;
 import org.DiegoHVZ.model.Colonia;
 import org.DiegoHVZ.util.ReadUtil;
 
@@ -10,7 +11,7 @@ public class ColoniaCatalogo extends Catalogos<Colonia>
     public static ColoniaCatalogo coloniaCatalogo;
     private ColoniaCatalogo( )
     {
-        super();
+        super(new ColoniaJdbcImpl());
     }
 
     public static ColoniaCatalogo getInstance( )
@@ -49,9 +50,9 @@ public class ColoniaCatalogo extends Catalogos<Colonia>
         colonia.setCp( ReadUtil.read( ) );
     }
 
-    @Override
+    /*@Override
     public File getFile() {
         return new File( "./Colonia.object" );
     }
-
+*/
 }

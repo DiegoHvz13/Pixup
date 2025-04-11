@@ -1,5 +1,6 @@
 package org.DiegoHVZ.Consola;
 
+import org.DiegoHVZ.jdbc.impl.CancionJdbcImpl;
 import org.DiegoHVZ.model.Cancion;
 import org.DiegoHVZ.model.Disco;
 import org.DiegoHVZ.util.ReadUtil;
@@ -10,7 +11,7 @@ public class CancionCatalogo extends Catalogos<Cancion>
 {
     private static CancionCatalogo cancionCatalogo;
 
-    private CancionCatalogo() { super();}
+    private CancionCatalogo() { super(new CancionJdbcImpl());}
     public  static CancionCatalogo getInstance()
     {
         if (cancionCatalogo == null)
@@ -64,8 +65,10 @@ public class CancionCatalogo extends Catalogos<Cancion>
         cancion.setIdDisco(disco.getId());
     }
 
-    @Override
+    /*@Override
     public File getFile() {
         return new File("Cancion.list");
     }
+
+     */
 }

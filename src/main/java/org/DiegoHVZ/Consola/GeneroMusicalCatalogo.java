@@ -1,5 +1,6 @@
 package org.DiegoHVZ.Consola;
 
+import org.DiegoHVZ.jdbc.impl.GeneroMusicalJdbcImpl;
 import org.DiegoHVZ.model.Disquera;
 import org.DiegoHVZ.model.GeneroMusical;
 import org.DiegoHVZ.util.ReadUtil;
@@ -13,7 +14,7 @@ public class GeneroMusicalCatalogo extends Catalogos<GeneroMusical>
 
     private GeneroMusicalCatalogo()
     {
-        super();
+        super(new GeneroMusicalJdbcImpl());
     }
     public  static GeneroMusicalCatalogo getInstance()
     {
@@ -47,10 +48,10 @@ public class GeneroMusicalCatalogo extends Catalogos<GeneroMusical>
         generoMusical.setGeneroMusical( ReadUtil.read( ) );
     }
 
-    @Override
+   /* @Override
     public File getFile() {
         return new File("GeneroMusical.list");
     }
-
+*/
 
 }

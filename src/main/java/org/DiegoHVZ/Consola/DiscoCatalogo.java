@@ -1,5 +1,6 @@
 package org.DiegoHVZ.Consola;
 
+import org.DiegoHVZ.jdbc.impl.DiscoJdbcImpl;
 import org.DiegoHVZ.model.Disco;
 import org.DiegoHVZ.util.ReadUtil;
 import java.io.File;
@@ -9,7 +10,7 @@ public class DiscoCatalogo extends Catalogos<Disco> {
     private static DiscoCatalogo discoCatalogo;
 
     private DiscoCatalogo() {
-        super();
+        super(new DiscoJdbcImpl());
     }
 
     public static DiscoCatalogo getInstance() {
@@ -109,11 +110,11 @@ public class DiscoCatalogo extends Catalogos<Disco> {
 
     }
 
-    @Override
+    /*@Override
     public File getFile() {
         return new File("Disco.list");
     }
-
+*/
     public Disco getDiscoById(int idDisco) {
         Optional<Disco> disco = list.stream()
                 .filter(d -> d.getId().equals(idDisco))

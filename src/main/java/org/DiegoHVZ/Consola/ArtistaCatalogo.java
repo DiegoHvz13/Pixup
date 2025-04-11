@@ -1,5 +1,7 @@
 package org.DiegoHVZ.Consola;
 
+import org.DiegoHVZ.jdbc.impl.ArtistaJdbcImpl;
+import org.DiegoHVZ.jdbc.impl.EstadoJdbcImpl;
 import org.DiegoHVZ.model.Artista;
 import org.DiegoHVZ.util.ReadUtil;
 
@@ -12,7 +14,7 @@ public class ArtistaCatalogo extends Catalogos<Artista>
 
     private ArtistaCatalogo()
     {
-        super();
+        super(new ArtistaJdbcImpl());
     }
     public  static ArtistaCatalogo getInstance()
     {
@@ -46,10 +48,12 @@ public class ArtistaCatalogo extends Catalogos<Artista>
         artista.setArtista( ReadUtil.read( ) );
     }
 
-    @Override
+    /*@Override
     public File getFile() {
         return new File("Artista.list");
     }
+
+     */
 
 
 }
