@@ -6,12 +6,14 @@ import org.DiegoHvdz.vista.Menu;
 public class ListaCatalogos extends LeerAcciones
 {
     public static ListaCatalogos listaCatalogos;
+
     private ListaCatalogos()
     {
     }
-    public static ListaCatalogos getInstance( )
+
+    public static ListaCatalogos getInstance()
     {
-        if(listaCatalogos==null)
+        if (listaCatalogos == null)
         {
             listaCatalogos = new ListaCatalogos();
         }
@@ -21,10 +23,14 @@ public class ListaCatalogos extends LeerAcciones
     @Override
     public void despliegaMenu()
     {
-        System.out.println("\n\t::: Lista de Catálogos Disponibles :::");
-        System.out.println( "1.- Usuarios");
-        System.out.println( "2.- Discos");
-        System.out.println( "3.- Salir");
+        System.out.println("\n\t===============================");
+        System.out.println("\t   ::: Catálogos disponibles :::");
+        System.out.println("\t===============================\n");
+        System.out.println("\t1. Usuarios");
+        System.out.println("\t2. Discos");
+        System.out.println("\t3. Volver\n");
+        System.out.println("--------------------------------");
+        System.out.print("> Selecciona una opción: ");
         Menu.seleccionaOpcion();
     }
 
@@ -33,6 +39,7 @@ public class ListaCatalogos extends LeerAcciones
     {
         return 1;
     }
+
     @Override
     public int valorMaxMenu()
     {
@@ -43,7 +50,7 @@ public class ListaCatalogos extends LeerAcciones
     public void procesaOpcion()
     {
         Ejecutable ejecutable = null;
-        switch(opcion)
+        switch (opcion)
         {
             case 1:
                 ejecutable = ListaUsuario.getInstance();
@@ -58,11 +65,11 @@ public class ListaCatalogos extends LeerAcciones
                 Menu.opcionInvalida();
                 break;
         }
-        if(ejecutable!=null)
+
+        if (ejecutable != null)
         {
             ejecutable.setFlag(true);
             ejecutable.run();
         }
     }
 }
-

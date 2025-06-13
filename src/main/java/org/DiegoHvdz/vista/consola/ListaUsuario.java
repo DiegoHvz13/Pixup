@@ -13,7 +13,7 @@ public class ListaUsuario extends LeerAcciones
 
     public static ListaUsuario getInstance()
     {
-        if(listaUsuario==null)
+        if (listaUsuario == null)
         {
             listaUsuario = new ListaUsuario();
         }
@@ -23,11 +23,15 @@ public class ListaUsuario extends LeerAcciones
     @Override
     public void despliegaMenu()
     {
-        System.out.println("\n\t::: Catálogo de Usuarios :::");
-        System.out.println( "1.- Estado");
-        System.out.println( "2.- Municipio");
-        System.out.println( "3.- Colonia");
-        System.out.println( "4.- Salir");
+        System.out.println("\n\t===============================");
+        System.out.println("\t   ::: Catálogo de Usuarios :::");
+        System.out.println("\t===============================\n");
+        System.out.println("\t1. Estado");
+        System.out.println("\t2. Municipio");
+        System.out.println("\t3. Colonia");
+        System.out.println("\t4. Volver\n");
+        System.out.println("--------------------------------");
+        System.out.print("> Selecciona una opción: ");
         Menu.seleccionaOpcion();
     }
 
@@ -59,17 +63,17 @@ public class ListaUsuario extends LeerAcciones
                 ejecutable = ColoniaCatalogo.getInstance();
                 break;
             case 4:
-                flag=false;
+                flag = false;
                 break;
             default:
                 Menu.opcionInvalida();
                 break;
         }
-        if(ejecutable!=null)
+
+        if (ejecutable != null)
         {
-            ejecutable.setFlag( true );
-            ejecutable.run( );
+            ejecutable.setFlag(true);
+            ejecutable.run();
         }
     }
 }
-

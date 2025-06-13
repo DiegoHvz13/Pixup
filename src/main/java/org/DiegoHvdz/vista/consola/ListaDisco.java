@@ -13,7 +13,7 @@ public class ListaDisco extends LeerAcciones
 
     public static ListaDisco getInstance()
     {
-        if(listaDisco==null)
+        if (listaDisco == null)
         {
             listaDisco = new ListaDisco();
         }
@@ -23,13 +23,17 @@ public class ListaDisco extends LeerAcciones
     @Override
     public void despliegaMenu()
     {
-        System.out.println("\n\t::: Catálogo de Discos :::");
-        System.out.println( "1.- Artista");
-        System.out.println( "2.- Disquera");
-        System.out.println( "3.- Genero músical");
-        System.out.println( "4.- Disco" );
-        System.out.println( "5.- Canción" );
-        System.out.println( "6.- Salir");
+        System.out.println("\n\t===============================");
+        System.out.println("\t    ::: Catálogo de Discos :::");
+        System.out.println("\t===============================\n");
+        System.out.println("\t1. Artista");
+        System.out.println("\t2. Disquera");
+        System.out.println("\t3. Género musical");
+        System.out.println("\t4. Disco");
+        System.out.println("\t5. Canción");
+        System.out.println("\t6. Volver\n");
+        System.out.println("--------------------------------");
+        System.out.print("> Selecciona una opción: ");
         Menu.seleccionaOpcion();
     }
 
@@ -38,6 +42,7 @@ public class ListaDisco extends LeerAcciones
     {
         return 1;
     }
+
     @Override
     public int valorMaxMenu()
     {
@@ -48,7 +53,7 @@ public class ListaDisco extends LeerAcciones
     public void procesaOpcion()
     {
         Ejecutable ejecutable = null;
-        switch(opcion)
+        switch (opcion)
         {
             case 1:
                 ejecutable = ArtistaCatalogo.getInstance();
@@ -72,7 +77,8 @@ public class ListaDisco extends LeerAcciones
                 Menu.opcionInvalida();
                 break;
         }
-        if(ejecutable!=null)
+
+        if (ejecutable != null)
         {
             ejecutable.setFlag(true);
             ejecutable.run();
