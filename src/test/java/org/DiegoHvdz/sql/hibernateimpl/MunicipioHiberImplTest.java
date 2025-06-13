@@ -9,19 +9,16 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class MunicipioHiberImplTest
-{
+class MunicipioHiberImplTest {
 
     @Test
-    void getInstance()
-    {
+    void getInstance() {
         GenericSql<Municipio> municipioHiber = MunicipioHiberImpl.getInstance();
-        assertNotNull( municipioHiber );
+        assertNotNull(municipioHiber);
     }
 
     @Test
-    void findAll()
-    {
+    void findAll() {
         GenericSql<Municipio> municipioHiber = MunicipioHiberImpl.getInstance();
         List<Municipio> list = municipioHiber.findAll();
 
@@ -30,59 +27,88 @@ class MunicipioHiberImplTest
     }
 
     @Test
-    void save()
-    {
+    void save() {
         GenericSql<Municipio> municipioHiber = MunicipioHiberImpl.getInstance();
         GenericSql<Estado> estadoHiber = EstadoHiberImpl.getInstance();
 
-        for(int i = 1; i<4; i++ )
-        {
-            Estado estado = estadoHiber.findById(i);
+        Estado estado = new Estado();
+        estado.setEstado("Estado para municipio prueba");
 
+        System.out.println("Longitud ESTADO: " + estado.getEstado().length());
+        System.out.println("Texto ESTADO: " + estado.getEstado());
+
+        estadoHiber.save(estado);
+
+        for (int i = 1; i <= 3; i++) {
             Municipio municipio = new Municipio();
-            municipio.setMunicipio( " Municipio de Prueba "+i);
-            municipio.setEstado( estado );
+            municipio.setMunicipio("Municipio de Prueba " + i);
+            municipio.setEstado(estado);
 
-            assertNotNull( municipioHiber );
             municipioHiber.save(municipio);
+            assertNotNull(municipio.getId());
         }
     }
 
     @Test
-    void update()
-    {
+    void update() {
         GenericSql<Municipio> municipioHiber = MunicipioHiberImpl.getInstance();
         GenericSql<Estado> estadoHiber = EstadoHiberImpl.getInstance();
 
-        Estado estado = estadoHiber.findById(1);
+        Estado estado = new Estado();
+        estado.setEstado("Estado para actualizar municipio");
+        estadoHiber.save(estado);
 
         Municipio municipio = new Municipio();
-        municipio.setId(1);
-        municipio.setMunicipio( "Municipio " + municipio.getId() + " nuevo");
-        municipio.setEstado( estado );
+        municipio.setMunicipio("Municipio original");
+        municipio.setEstado(estado);
+        municipioHiber.save(municipio);
 
-        assertNotNull( municipio );
-        municipioHiber.update( municipio );
+        municipio.setMunicipio("Municipio actualizado");
+        municipioHiber.update(municipio);
+
+        Municipio actualizado = municipioHiber.findById(municipio.getId());
+        assertEquals("Municipio actualizado", actualizado.getMunicipio());
     }
 
     @Test
-    void delete()
-    {
+    void delete() {
         GenericSql<Municipio> municipioHiber = MunicipioHiberImpl.getInstance();
+        GenericSql<Estado> estadoHiber = EstadoHiberImpl.getInstance();
 
-        Municipio municipio = municipioHiber.findById(3);
+        Estado estado = new Estado();
+        estado.setEstado("Estado temporal para eliminación");
+        estadoHiber.save(estado);
 
-        assertNotNull( municipio );
-        municipioHiber.delete( municipio );
+        Municipio municipio = new Municipio();
+        municipio.setMunicipio("Municipio para eliminar");
+        municipio.setEstado(estado);
+        municipioHiber.save(municipio);
+
+        Municipio encontrado = municipioHiber.findById(municipio.getId());
+        assertNotNull(encontrado);
+
+        municipioHiber.delete(encontrado);
+
+        Municipio eliminado = municipioHiber.findById(municipio.getId());
+        assertNull(eliminado);
     }
 
     @Test
-    void findById()
-    {
+    void findById() {
         GenericSql<Municipio> municipioHiber = MunicipioHiberImpl.getInstance();
-        Municipio municipio = municipioHiber.findById(1);
+        GenericSql<Estado> estadoHiber = EstadoHiberImpl.getInstance();
 
-        assertNotNull( municipio );
-        System.out.println(municipio);
+        Estado estado = new Estado();
+        estado.setEstado("Estado para búsqueda");
+        estadoHiber.save(estado);
+
+        Municipio municipio = new Municipio();
+        municipio.setMunicipio("Municipio buscado");
+        municipio.setEstado(estado);
+        municipioHiber.save(municipio);
+
+        Municipio recuperado = municipioHiber.findById(municipio.getId());
+        assertNotNull(recuperado);
+        System.out.println(recuperado);
     }
 }

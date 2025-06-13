@@ -61,19 +61,32 @@ class EstadoHiberImplTest {
     void delete()
     {
         GenericSql<Estado> estadoHiber = EstadoHiberImpl.getInstance();
-        Estado estado = estadoHiber.findById(4);
 
-        assertNotNull( estado );
-        estadoHiber.delete( estado );
+        Estado estado = new Estado();
+        estado.setEstado("Para eliminar");
+        estadoHiber.save(estado);
+        Estado estadoGuardado = estadoHiber.findById(estado.getId());
+        assertNotNull(estadoGuardado);
+        estadoHiber.delete(estadoGuardado);
+        Estado eliminado = estadoHiber.findById(estado.getId());
+        assertNull(eliminado);
     }
+
 
     @Test
-    void findById()
-    {
-        EstadoHiberImpl estadoHiber = EstadoHiberImpl.getInstance();
-        Estado estado = estadoHiber.findById(1);
+    void findById() {
+        GenericSql<Estado> estadoHiber = EstadoHiberImpl.getInstance();
 
-        assertNotNull( estado );
-        System.out.println(estado);
+        Estado nuevo = new Estado();
+        nuevo.setEstado("Estado prueba");
+
+        estadoHiber.save(nuevo);
+
+        Estado recuperado = estadoHiber.findById(nuevo.getId());
+
+        assertNotNull(recuperado);
+        System.out.println(recuperado);
     }
+
+
 }
